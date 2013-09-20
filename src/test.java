@@ -1,28 +1,21 @@
-import java.util.*;
-public class test {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-		String a = "aabbbbccaaa";
-		char temp = a.charAt(0);
-		StringBuffer sb = new StringBuffer();
-		int count = 0;
-		for(int i=1;i<a.length();i++){
-			
-			if(temp != a.charAt(i)){
-				sb.append(temp);
-				sb.append(count);
-				temp = a.charAt(i);
-				count = 0;
+public class test{
+	
+	static void plot(double x, double y, double rad){
+		for(double i=0;i <= 2*rad+1; i += .1){
+			for(double j=0;j <= 2*rad+1; j += .1){
+				double dist = Math.sqrt(Math.pow((x-i), 2) + Math.pow((y-j),2));
+				System.out.println(dist);
+						if(dist + .1 == rad || dist - .1 == rad)
+							System.out.print("X");
+						else
+							System.out.print(" ");
 			}
-			count++;
+			System.out.println();
+			
 		}
-		sb.append(temp);
-		sb.append(count);
-		System.out.println(sb);
 	}
-
+	
+	public static void main(String args[]){
+		plot(10, 10, 3);
+	}
 }

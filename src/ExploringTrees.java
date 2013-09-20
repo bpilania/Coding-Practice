@@ -10,22 +10,21 @@ public class ExploringTrees {
 		TreeNode root = tree.insert(10);
 		tree.insert(5);
 		tree.insert(20);
-		tree.insert(3);
 		tree.insert(30);
-		tree.insert(1);
+		tree.insert(15);
+		tree.insert(8);
 		tree.insert(2);
-		tree.insert(7);
-		tree.insert(9);
-		tree.insert(25);
-		tree.insert(35);
-		
+		tree.insert(3);
+		tree.insert(4);
+
+
 		ArrayList<LinkedList<Integer>> list = new ArrayList<LinkedList<Integer>>();
 		tree.createLinkedListOfLevelsRecursive(root, 0, list);
 		
-		TreeNode ancestor = tree.findFirstCommonAncestorOwn(root, 1, 9, new ArrayList<TreeNode>(), new Hashtable<Integer,ArrayList<TreeNode>>());
+		TreeNode ancestor = tree.findFirstCommonAncestorOwn(root, 5, 20, new ArrayList<TreeNode>(), new Hashtable<Integer,ArrayList<TreeNode>>());
 		System.out.println("Ancestor is: "+ancestor.value);
 		
-		TreeNode ancestorNew = tree.findFirstCommonAncestorOther(root, 1, 9);
+		TreeNode ancestorNew = tree.findFirstCommonAncestorOther(root, 5, 20);
 		System.out.println("Ancestor is: "+ancestorNew.value);
 
 		
@@ -173,13 +172,17 @@ class Tree {
 		if(root == null) 
 			return 0;
 		
-		int lHeight = findHeight(root.left);
-		int rHeight = findHeight(root.right);
+		int lHeight = isBalancedHelper(root.left);
+		
+		int rHeight = isBalancedHelper(root.right);
+		
 		if(Math.abs(lHeight-rHeight) > 1)
 			throw new Exception("unbalanced tree");
+		
 		return Math.max(lHeight,  rHeight) + 1;
 		
 	}
+	
 	TreeNode minHeightTreeFromSortedNumbers(int[] values, int left, int right){
 		if(left > right)
 			return null;
