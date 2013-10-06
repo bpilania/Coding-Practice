@@ -11,11 +11,24 @@ public class RecursionAndDP {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(countWaysToClimbStaircase(4, new Hashtable<Integer, Integer>()));
+		System.out.println("Fib of N is: "+fib(30, new int[100]));
+		System.out.println("Count Stairs New: "+countSteps(10));
+		System.out.println("Count Stairs Old: "+countWaysToClimbStaircase(10, new Hashtable<Integer, Integer>()));
+		boolean[][] allowed = new boolean[3][3];
+		allowed[1][0] = true;
+		ArrayList<ArrayList<String>> listofpath = new ArrayList<ArrayList<String>>();
+		System.out.println("Robot ways new are: "+countRobotWays(0,0,new int[3][3], allowed, new ArrayList<String>(), listofpath));
+		char[] arr = {'a','b','c'};
+		ArrayList<ArrayList<Character>> main1 = new ArrayList<ArrayList<Character>>();
+		findAllSubsets(arr, main1, 0);
+		ArrayList<StringBuffer> main2 = new ArrayList<StringBuffer>();
+		findAllPermutations(arr, main2, 1);
+		
+		
 		
 		
 		ArrayList<ArrayList<String>> main = new ArrayList<ArrayList<String>>();
-		System.out.println(pathsOfARobot(2,1, new ArrayList<String>(), main));
+		System.out.println("Robot ways old are: "+pathsOfARobot(2,2, new ArrayList<String>(), main));
 		System.out.println(main);
 		
 		int[] values = {-10,-5,2,2,2,3,4,7,9,12,13};
@@ -168,6 +181,7 @@ public class RecursionAndDP {
 	static void allSubsetsOfASet(ArrayList<Integer> list, ArrayList<ArrayList<Integer>> set){
 		if(list.isEmpty()){
 			return;
+			
 		}
 			
 		if(!set.contains(list))
@@ -349,6 +363,96 @@ public class RecursionAndDP {
 		
 	}
 	
+	static int fib(int a, int[] cache){
+		if(a == 0) return 0;
+		if(a == 1) return 1;
+		
+		if(cache[a] > 0)
+			return cache[a];
+		cache[a] = fib(a-1, cache) + fib(a-2, cache);			
+		
+		return cache[a];
+		
+	}
 	
+	static int countSteps(int n){
+		if(n < 0 ) return 0;
+		if(n == 0) return 1;
+		return countSteps(n-1) + countSteps(n-2) + countSteps(n-3);
+	}
+	static int countRobotWays(int x, int y, int[][] cache, boolean[][] allowed, ArrayList<String> path, ArrayList<ArrayList<String>> listofpath){
+		if( x > 2) return 0;
+		if(y > 2) return 0;
+		if(x == 2 && y == 2){ 
+			path.add(x+","+y);
+			listofpath.add((ArrayList<String>)path.clone());
+			path.remove(path.size()-1);
+			return 1;
+		}
+		
+		if(allowed[x][y] == true) {
+			
+			return 0;
+		}
+		path.add(x+","+y);
+		//if(cache[x][y] > 0) return cache[x][y];
+		
+		cache[x][y] = countRobotWays(x+1, y, cache, allowed, path, listofpath) + countRobotWays(x, y+1, cache, allowed, path, listofpath);
+		
+		path.remove(path.size()-1);
+		return cache[x][y];
+		
+	}
+	/*ABC
+	 * A
+	 * 
+	 * 
+	 */
+	static void findAllSubsets(char[] arr, ArrayList<ArrayList<Character>> main, int index){
+		if(main.size() == 0) main.add(new ArrayList<Character>());
+		if(index == arr.length) return;
+		ArrayList<ArrayList<Character>> temp = new ArrayList<ArrayList<Character>>();
+		for(ArrayList<Character> list : main){
+			ArrayList<Character> tempList = new ArrayList<Character>(list);
+			tempList.add(arr[index]);
+			temp.add(tempList);
+		}
+		
+		for(ArrayList<Character> list : temp)
+			main.add(list);
+		
+		findAllSubsets(arr, main, index+1);
+		
+	}
+	
+	static void findAllPermutations(char[] arr, ArrayList<StringBuffer> main, int index){
+		if(index == arr.length)
+			return;
+		char temp = arr[index];
+		if(main.size() == 0)
+			main.add(new StringBuffer(String.valueOf(arr[0])));
+		
+		
+		
+		ArrayList<StringBuffer> tempBuffer = new ArrayList<StringBuffer>();
+		for(StringBuffer buffer : main){
+			for(int i=0;i<buffer.length()+1; i++){
+				StringBuffer copyBuffer = new StringBuffer(buffer);
+				copyBuffer.insert(i, String.valueOf(temp));
+				tempBuffer.add(copyBuffer);
+			}
+		}
+		main.clear();
+		
+		for(StringBuffer buffer : tempBuffer)
+			main.add(buffer);
+		
+		findAllPermutations(arr, main, index+1);
+			
+		
+	}
+	
+	
+		
 	
 }
