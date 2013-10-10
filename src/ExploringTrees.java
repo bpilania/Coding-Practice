@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.LinkedList;
 
@@ -16,8 +17,8 @@ public class ExploringTrees {
 		tree.insert(2);
 		tree.insert(3);
 		tree.insert(4);
-
-
+		ArrayList<LinkedList<TreeNode>> lists = tree.makeLinkedListFromLevelsBFS(root);
+		System.out.println("Height of tree is: "+tree.findHeight(root));
 		ArrayList<LinkedList<Integer>> list = new ArrayList<LinkedList<Integer>>();
 		tree.createLinkedListOfLevelsRecursive(root, 0, list);
 		
@@ -198,6 +199,29 @@ class Tree {
 		return midNode;
 	}
 	
+	static public ArrayList<LinkedList<TreeNode>> makeLinkedListFromLevelsBFS(TreeNode root){
+		if(root == null) return null;
+		ArrayList<LinkedList<TreeNode>> result = new ArrayList<LinkedList<TreeNode>>();
+		LinkedList<TreeNode> l1 = new LinkedList<TreeNode>();
+		l1.add(root);
+		Queue<LinkedList<TreeNode>> q1 = new LinkedList<LinkedList<TreeNode>>();
+		q1.add(l1);
+		
+		while(!q1.isEmpty()){
+			LinkedList<TreeNode> poped = q1.poll();
+			result.add(poped);
+			LinkedList<TreeNode> newList = new LinkedList<TreeNode>();
+			for(TreeNode tn : poped){
+				if(tn.left != null) 	newList.add(tn.left);
+				if(tn.right != null) 	newList.add(tn.right);
+			}
+			if(newList.size() > 0)
+				q1.add(newList);				
+		}		
+		
+		return result;
+	}
+	
 	boolean isBST(TreeNode node){
 	 	if(node.left == null && node.right == null || 
 	 			(node.left == null && node.value <= node.right.value) || 
@@ -296,7 +320,7 @@ class Tree {
 		return pFind;
 }
 
-	int findHeight(TreeNode node){
+	static int findHeight(TreeNode node){
 		if(node == null) return 0;
 		
 		return 1 + Math.max(findHeight(node.left), findHeight(node.right));

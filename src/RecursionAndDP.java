@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -17,7 +18,10 @@ public class RecursionAndDP {
 		boolean[][] allowed = new boolean[3][3];
 		allowed[1][0] = true;
 		ArrayList<ArrayList<String>> listofpath = new ArrayList<ArrayList<String>>();
-		System.out.println("Robot ways new are: "+countRobotWays(0,0,new int[3][3], allowed, new ArrayList<String>(), listofpath));
+		int[][] cache = new int[3][3];
+		for(int[] row : cache)
+			Arrays.fill(row, -1);
+		System.out.println("Robot ways new are: "+countRobotWays(0,0,cache, allowed, new ArrayList<String>(), listofpath));
 		char[] arr = {'a','b','c'};
 		ArrayList<ArrayList<Character>> main1 = new ArrayList<ArrayList<Character>>();
 		findAllSubsets(arr, main1, 0);
@@ -53,7 +57,7 @@ public class RecursionAndDP {
 		
 		
 		ArrayList<StringBuilder> listBrackets = new ArrayList<StringBuilder>();
-		printProperArrangedBrackets(2, listBrackets);
+		printProperArrangedBrackets(3, listBrackets);
 		System.out.println(listBrackets);
 		
 		
@@ -95,7 +99,7 @@ public class RecursionAndDP {
 			System.out.println();
 		}
 		eightQueensProblem(board, 0);
-
+		System.out.println(count);
 		int[][] listOfBoxes = {
 				{2,4,4},
 				{2,0,3},
@@ -116,7 +120,39 @@ public class RecursionAndDP {
 		for(int[] temp : finalList){
 			System.out.println(temp[0]+" "+temp[1]+" "+temp[2]);
 		}
+		HashSet<ArrayList<Integer>> set1 = new HashSet<ArrayList<Integer>>();
+		ArrayList<Integer> current = new ArrayList<Integer>();
+		findNumberofWays(50, set1,current);
+		System.out.println(set1.size());
 		
+	}
+	
+	public static void findNumberofWays(int cash, HashSet<ArrayList<Integer>> set, ArrayList<Integer> current){
+		if(cash < 0) {
+			current.remove(current.size()-1);
+			return;
+		}
+		if(cash == 0){ 
+			Collections.sort(current);
+			if(!set.contains(current))
+				set.add((ArrayList<Integer>)current.clone()); 
+			current.remove(current.size()-1);
+			return; 
+			}
+		
+		current.add(10);
+		findNumberofWays(cash - 10, set, current);
+		
+		current.add(20);
+		findNumberofWays(cash - 20, set, current);
+		
+		current.add(30);
+		findNumberofWays(cash - 30, set, current);
+
+		if(current.size() > 0)
+		current.remove(current.size()-1);
+		
+		return;
 	}
 	
 	
@@ -148,7 +184,7 @@ public class RecursionAndDP {
 			main.add((ArrayList<String>)temp.clone());
 			return 1;
 		}
-		
+		System.out.println("*******"+x+", "+y);
 		int count_x = pathsOfARobot(x-1,y, temp, main);
 		temp.remove(temp.size()-1);
 		int count_y = pathsOfARobot(x,y-1, temp,main);
@@ -216,7 +252,7 @@ public class RecursionAndDP {
 	}
 	
 	static void printProperArrangedBrackets(int n, ArrayList<StringBuilder> list){ //Check problem with contains method
-		if(n<0)
+		if(n<=0)
 			return;
 		ArrayList<StringBuilder> tempBuff = new ArrayList<StringBuilder>(list);
 		for(StringBuilder s : tempBuff){
@@ -275,11 +311,11 @@ public class RecursionAndDP {
 		
 		if(!currList.isEmpty()) currList.remove(currList.size()-1);
 	}
-	
+	static int count = 0;
 	static void eightQueensProblem(int[][] board, int j){
 		if(j > 7){
 			System.out.println("---------------------");
-
+			count++;
 			for(int i=0; i<board.length; i++){
 				for(int k=0; k<board[0].length; k++){
 					System.out.print(board[i][k]+" ");
@@ -380,6 +416,7 @@ public class RecursionAndDP {
 		if(n == 0) return 1;
 		return countSteps(n-1) + countSteps(n-2) + countSteps(n-3);
 	}
+	
 	static int countRobotWays(int x, int y, int[][] cache, boolean[][] allowed, ArrayList<String> path, ArrayList<ArrayList<String>> listofpath){
 		if( x > 2) return 0;
 		if(y > 2) return 0;
@@ -390,15 +427,11 @@ public class RecursionAndDP {
 			return 1;
 		}
 		
-		if(allowed[x][y] == true) {
-			
-			return 0;
-		}
 		path.add(x+","+y);
-		//if(cache[x][y] > 0) return cache[x][y];
+		if(cache[x][y] >= 0) return cache[x][y];
 		
 		cache[x][y] = countRobotWays(x+1, y, cache, allowed, path, listofpath) + countRobotWays(x, y+1, cache, allowed, path, listofpath);
-		
+		System.out.println("*******NEW"+x+", "+y);
 		path.remove(path.size()-1);
 		return cache[x][y];
 		

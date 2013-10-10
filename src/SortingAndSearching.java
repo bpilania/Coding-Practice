@@ -21,7 +21,7 @@ public class SortingAndSearching {
 		ss.insertionSort(matrix1);
 		int matrix2[] = {4,7,5,2,1,7,4,10,2,9,3};
 		ss.selectionSort(matrix2);
-		int matrix3[] = {9,8,7,6,5,4,3,2,1};
+		int matrix3[] = {9,8,7,6,7,-5,8,5,4,3,2,1};
 		ss.quickSort(matrix3);
 		int matrix4[] = {4,7,5,2,1,7,4,10,2,9,3};
 		ss.mergeSort(matrix4);
@@ -107,7 +107,7 @@ public class SortingAndSearching {
 
 	void bubbleSort(int[] matrix){
 		
-		for(int i=matrix.length-1; i>=0; i--){
+		for(int i=matrix.length-1; i>0; i--){
 			for(int j=0,k=1; k <= i ; j++, k++){
 				if(matrix[j] > matrix[k]){
 					int temp = matrix[j];
@@ -118,7 +118,7 @@ public class SortingAndSearching {
 		}
 		for(int i=0; i<matrix.length; i++)
 			System.out.print(matrix[i]+" ");
-		System.out.println();
+		System.out.println("Bsort Complete");
 	}
 	
 	void insertionSort(int[] matrix){
@@ -136,7 +136,7 @@ public class SortingAndSearching {
 		}
 		for(int i=0; i<matrix.length; i++)
 			System.out.print(matrix[i]+" ");
-		System.out.println();
+		System.out.println("Insertion Sort Completed");
 
 	}
 	
@@ -166,7 +166,7 @@ public class SortingAndSearching {
 	
 	void quickSortHelper(int[] matrix, int low, int high){
 		
-		if(low >= high)
+		if(low > high)
 			return;
 		
 		Random gen = new Random();
@@ -202,13 +202,31 @@ public class SortingAndSearching {
 		quickSortHelper(matrix, left+1, high);
 		
 	}
+	
+	
+	
 	void mergeSort(int[] matrix){
 		matrix = mergeSortHelper(matrix);
 		for(int i=0; i<matrix.length; i++)
 			System.out.print(matrix[i]+" ");
 		System.out.println();
 	}
-	
+	/*
+	 * 
+	 * find middle
+	 * make left_array(0-middle) = copy values
+	 * 
+	 * make right array(middle-high) and copy values
+	 * 
+	 * left = recurse on left array
+	 * 
+	 * right = recurse on right array
+	 * 
+	 * merge left and right
+	 * 
+	 * returned merged
+	 * 
+	 */
 	int[] mergeSortHelper(int[] matrix){
 		if(matrix.length <= 1)
 			return matrix;
