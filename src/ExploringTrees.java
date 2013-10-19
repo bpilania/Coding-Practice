@@ -17,6 +17,15 @@ public class ExploringTrees {
 		tree.insert(2);
 		tree.insert(3);
 		tree.insert(4);
+		tree.inOrderTraversalIteratively(root);
+		System.out.println("This was iterative in - retrival");
+
+		tree.preOrderTraversalIteratively(root);
+		
+		System.out.println("This was iterative pre - retrival");
+		
+		tree.postOrderTraversalIteratively(root);
+		System.out.println("This was iterative post - retrival");
 		ArrayList<LinkedList<TreeNode>> lists = tree.makeLinkedListFromLevelsBFS(root);
 		System.out.println("Height of tree is: "+tree.findHeight(root));
 		ArrayList<LinkedList<Integer>> list = new ArrayList<LinkedList<Integer>>();
@@ -147,6 +156,68 @@ class Tree {
 			result = insertHelper(root.right, node);
 			if(result == false) root.right = node;
 			return true;
+		}
+	}
+	
+	void inOrderTraversalIteratively(TreeNode node){
+		if(node == null) return;
+		
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.push(node);
+		TreeNode last = node;
+		while(stack.size() > 0){
+			if(stack.peek().left != null && last != null){
+				stack.push(stack.peek().left);
+				continue;
+			}
+			last = stack.pop();
+			System.out.println(last.value);
+			last = last.right;
+			if(last != null){
+				stack.push(last);
+			}	
+		}
+	}
+	
+	void preOrderTraversalIteratively(TreeNode node){
+		if(node == null) return;
+		
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.push(node);
+		TreeNode current = node;
+		
+		while(!stack.isEmpty()){
+			System.out.println(stack.peek().value);
+			if(current != null && current.left != null){
+				current = current.left;
+				stack.push(current);
+				continue;
+			}
+			current = stack.pop().right;
+			if(current != null){
+				stack.push(current);
+			}
+			
+		}
+		
+	}
+	
+	void postOrderTraversalIteratively(TreeNode node){
+		if(node == null) return;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.push(node);
+		TreeNode current = null;
+		while(!stack.isEmpty()){
+			if(current != stack.peek().left && current != stack.peek().right && stack.peek().left != null){
+				stack.push(stack.peek().left);
+				continue;
+			}
+			if(current != stack.peek().right && stack.peek().right != null){
+				stack.push(stack.peek().right);
+				continue;
+			}
+			current = stack.pop();
+			System.out.println(current.value);				
 		}
 	}
 	

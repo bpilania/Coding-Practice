@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class RecursionAndDP {
@@ -86,8 +88,8 @@ public class RecursionAndDP {
 		
 		
 		ArrayList<Integer> currList = new ArrayList<Integer>();
-		ArrayList<ArrayList<Integer>> listCents = new ArrayList<ArrayList<Integer>>();
-		countWaysToNCents(10, currList, listCents, -1);
+		HashSet<ArrayList<Integer>> listCents = new HashSet<ArrayList<Integer>>();
+		countWaysToNCents(5, currList, listCents, -1);
 		System.out.println(listCents);
 		System.out.println(listCents.size());
 		
@@ -289,7 +291,7 @@ public class RecursionAndDP {
 		colorFill(matrix, x, y+1, value);
 	}
 	
-	static void countWaysToNCents(int total, ArrayList<Integer> currList, ArrayList<ArrayList<Integer>> list, int value){
+	static void countWaysToNCents(int total, ArrayList<Integer> currList, HashSet<ArrayList<Integer>> list, int value){
 		if(total < 0)
 			return;
 		
@@ -298,9 +300,7 @@ public class RecursionAndDP {
 		ArrayList<Integer> newCurrList = new ArrayList<Integer>(currList);
 		Collections.sort(newCurrList);
 		if(total == 0){
-				if(!list.contains(newCurrList)){
 				list.add(newCurrList);
-				}
 				currList.remove(currList.size()-1);
 				return;
 		}
@@ -311,6 +311,7 @@ public class RecursionAndDP {
 		
 		if(!currList.isEmpty()) currList.remove(currList.size()-1);
 	}
+	
 	static int count = 0;
 	static void eightQueensProblem(int[][] board, int j){
 		if(j > 7){
