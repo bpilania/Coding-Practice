@@ -117,12 +117,48 @@ class Node {
     }
 
 }
+class a<T>{
+	static int aa;
+	public a(){
+		System.out.println("In a");
+	}
+	public void abc(){
+		System.out.println("In abc of a");
+	}
+	public int geta(){
+		return aa;
+	}
+	public void seta(int a){
+		aa = a;
+	}
+}
+
+class b extends a{
+	public b(){
+		System.out.println("In b");
+	}
+	public void abc(){
+		System.out.println("In abc of b");
+	}
+}
 
 public class test1 {
 
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) {
+    	a<String> aaa = new a<String>();
+		aaa.seta(5);
+		
+		a<Integer> bbb = new a<Integer>();
+		bbb.seta(15);
+		
+		
+		System.out.println(aaa.geta());
+		System.out.println(bbb.geta());
+    		b obj = new b();
+    		obj.abc();
+    	
             String words[] = { "a", "apple", "argument", "aptitude", "ball", "bat" };
             Trie trie = new Trie(Arrays.asList(words));
             try {

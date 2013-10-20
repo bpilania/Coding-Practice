@@ -164,17 +164,18 @@ class Tree {
 		
 		Stack<TreeNode> stack = new Stack<TreeNode>();
 		stack.push(node);
-		TreeNode last = node;
+		TreeNode current = node;
 		while(stack.size() > 0){
-			if(stack.peek().left != null && last != null){
-				stack.push(stack.peek().left);
+			if(stack.peek().left != null && current != null){
+				current = current.left;
+				stack.push(current);
 				continue;
 			}
-			last = stack.pop();
-			System.out.println(last.value);
-			last = last.right;
-			if(last != null){
-				stack.push(last);
+			current = stack.pop();
+			System.out.println(current.value);
+			current = current.right;
+			if(current != null){
+				stack.push(current);
 			}	
 		}
 	}
@@ -185,17 +186,18 @@ class Tree {
 		Stack<TreeNode> stack = new Stack<TreeNode>();
 		stack.push(node);
 		TreeNode current = node;
-		
+		System.out.println(current.value);
 		while(!stack.isEmpty()){
-			System.out.println(stack.peek().value);
 			if(current != null && current.left != null){
 				current = current.left;
 				stack.push(current);
+				System.out.println(current.value);
 				continue;
 			}
 			current = stack.pop().right;
 			if(current != null){
 				stack.push(current);
+				System.out.println(current.value);
 			}
 			
 		}
@@ -206,18 +208,20 @@ class Tree {
 		if(node == null) return;
 		Stack<TreeNode> stack = new Stack<TreeNode>();
 		stack.push(node);
+		TreeNode lastPop = null;
 		TreeNode current = null;
 		while(!stack.isEmpty()){
-			if(current != stack.peek().left && current != stack.peek().right && stack.peek().left != null){
-				stack.push(stack.peek().left);
+			current = stack.peek();
+			if(lastPop != current.left && lastPop != current.right && current.left != null){
+				stack.push(current.left);
 				continue;
 			}
-			if(current != stack.peek().right && stack.peek().right != null){
-				stack.push(stack.peek().right);
+			if(lastPop != current.right && current.right != null){
+				stack.push(current.right);
 				continue;
 			}
-			current = stack.pop();
-			System.out.println(current.value);				
+			lastPop = stack.pop();
+			System.out.println(lastPop.value);				
 		}
 	}
 	
