@@ -108,7 +108,6 @@ public class ExploringTrees {
 
 
 
-
 class TreeNode {
 	int value;
 	TreeNode left;
@@ -117,6 +116,19 @@ class TreeNode {
 		this.value = value;
 		left = null;
 		right = null;
+	}
+}
+
+class result{
+	boolean foundA;
+	boolean foundB;
+	
+	TreeNode commonA;
+	
+	public result(boolean a, boolean b, TreeNode c){
+		foundA = a;
+		foundB = b;
+		commonA = c;
 	}
 }
 
@@ -134,6 +146,19 @@ class Tree {
 	
 		return root;
 	}
+	
+	TreeNode findCommonAncestor(TreeNode root, TreeNode node1, TreeNode node2){
+		
+		
+	}
+	
+	TreeNode findCommonAncestorHelper(TreeNode root, TreeNode node1, TreeNode node2){
+		if(root == null) return new result()
+		
+	}
+	
+
+	
 	
 	boolean insertHelper(TreeNode root, TreeNode node){
 		boolean result;
