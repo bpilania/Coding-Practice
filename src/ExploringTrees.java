@@ -17,6 +17,15 @@ public class ExploringTrees {
 		tree.insert(2);
 		tree.insert(3);
 		tree.insert(4);
+		tree.inOrderTraversalIteratively(root);
+		System.out.println("This was iterative in - retrival");
+
+		tree.preOrderTraversalIteratively(root);
+		
+		System.out.println("This was iterative pre - retrival");
+		
+		tree.postOrderTraversalIteratively(root);
+		System.out.println("This was iterative post - retrival");
 		ArrayList<LinkedList<TreeNode>> lists = tree.makeLinkedListFromLevelsBFS(root);
 		System.out.println("Height of tree is: "+tree.findHeight(root));
 		ArrayList<LinkedList<Integer>> list = new ArrayList<LinkedList<Integer>>();
@@ -172,6 +181,72 @@ class Tree {
 			result = insertHelper(root.right, node);
 			if(result == false) root.right = node;
 			return true;
+		}
+	}
+	
+	void inOrderTraversalIteratively(TreeNode node){
+		if(node == null) return;
+		
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.push(node);
+		TreeNode current = node;
+		while(stack.size() > 0){
+			if(stack.peek().left != null && current != null){
+				current = current.left;
+				stack.push(current);
+				continue;
+			}
+			current = stack.pop();
+			System.out.println(current.value);
+			current = current.right;
+			if(current != null){
+				stack.push(current);
+			}	
+		}
+	}
+	
+	void preOrderTraversalIteratively(TreeNode node){
+		if(node == null) return;
+		
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.push(node);
+		TreeNode current = node;
+		System.out.println(current.value);
+		while(!stack.isEmpty()){
+			if(current != null && current.left != null){
+				current = current.left;
+				stack.push(current);
+				System.out.println(current.value);
+				continue;
+			}
+			current = stack.pop().right;
+			if(current != null){
+				stack.push(current);
+				System.out.println(current.value);
+			}
+			
+		}
+		
+	}
+	
+	void postOrderTraversalIteratively(TreeNode node){
+		if(node == null) return;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.push(node);
+		TreeNode lastPop = null;
+		TreeNode current = null;
+		while(!stack.isEmpty()){
+			current = stack.peek();
+			if(lastPop != current.left && lastPop != current.right && current.left != null){
+				stack.push(current.left);
+				continue;
+			}
+			if(lastPop != current.right && current.right != null){
+				stack.push(current.right);
+				continue;
+			}
+			lastPop = stack.pop();
+			System.out.println(lastPop.value);				
 		}
 	}
 	
