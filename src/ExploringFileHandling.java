@@ -1,4 +1,12 @@
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class ExploringFileHandling {
 
@@ -22,7 +30,7 @@ public class ExploringFileHandling {
 			System.out.println(totalBytes);
 
 			remainingBytes = totalBytes;
-			byte[] buffer = new byte[100];
+			byte[] buffer = new byte[30];
 			char[] charBuffer = new char[buffer.length];
 
 			while (remainingBytes > 0) {
@@ -30,17 +38,25 @@ public class ExploringFileHandling {
 						: buffer.length;
 
 				input = new BufferedInputStream(new FileInputStream(file));
-				buffer = new byte[100];
+				buffer = new byte[30];
+				charBuffer = new char[buffer.length];
 				input.skip(totalBytesRead);
 				int bytesRead = input.read(buffer, (int) 0, (int) lengthToRead);
 				if (bytesRead > 0) {
 					totalBytesRead = totalBytesRead + bytesRead;
 					remainingBytes = totalBytes - totalBytesRead;
+
 					for (int i = 0; i < buffer.length && buffer[i] != 0; i++)
 						charBuffer[i] = (char) buffer[i];
 
-					findCount(charBuffer, result);
+					findCount(charBuffer, result, remainingBytes);
 
+					if (remainingBytes > 0) {
+						totalBytesRead = totalBytesRead - 18;
+						remainingBytes = totalBytes - totalBytesRead;
+					}
+					System.out.println("totalBytesRead: "+totalBytesRead);
+					System.out.println("remainingBytes: "+remainingBytes);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -60,7 +76,8 @@ public class ExploringFileHandling {
 		return result;
 	}
 
-	static void findCount(char[] arr, Result result) {
+	static void findCount(char[] arr, Result result, long remainingBytes) {
+
 		int countNexsan = 0;
 		int countNexsanTech = 0;
 		boolean foundNexsan = false;
@@ -80,7 +97,7 @@ public class ExploringFileHandling {
 			indexNexsan = bufferOriginal.indexOf(nexsan, indexNexsan);
 			int indexNexsanTech = bufferOriginal.indexOf(nexsanTech,
 					indexNexsan);
-			if (indexNexsan > 0) {
+			if (indexNexsan >= 0) {
 				if (indexNexsan == indexNexsanTech)
 					countNexsanTech++;
 				else
@@ -90,8 +107,8 @@ public class ExploringFileHandling {
 			}
 		}
 
-		indexNexsan = bufferOriginal.length() - nexsanTech.length();
-		while (indexNexsan > -1) {
+		indexNexsan = bufferOriginal.length() - nexsanTech.length() +1;
+		while (remainingBytes > 0 && indexNexsan > -1) {
 			indexNexsan = bufferOriginal.indexOf(nexsan, indexNexsan);
 			if (indexNexsan > 0) {
 				countNexsan--;
@@ -124,7 +141,7 @@ public class ExploringFileHandling {
 	public static void main(String args[]) throws IOException {
 		char c;
 		// Create a BufferedReader using System.in
-		String test = "HelloThNexsanisIsBhaskarNexsanNexsan TechnologiesNexsan Nexsan";
+		String test = "HelloThNexsanisIsBhaskarNexsanNexsan TechnologiesNexsan NexsanHelloThNexsanisIs";
 		char[] testArr = test.toCharArray();
 
 		System.out.println("Enter characters, 'q' to quit.");
