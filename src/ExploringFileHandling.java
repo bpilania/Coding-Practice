@@ -30,7 +30,7 @@ public class ExploringFileHandling {
 			System.out.println(totalBytes);
 
 			remainingBytes = totalBytes;
-			byte[] buffer = new byte[30];
+			byte[] buffer = new byte[300];
 			char[] charBuffer = new char[buffer.length];
 
 			while (remainingBytes > 0) {
@@ -38,7 +38,7 @@ public class ExploringFileHandling {
 						: buffer.length;
 
 				input = new BufferedInputStream(new FileInputStream(file));
-				buffer = new byte[30];
+				buffer = new byte[300];
 				charBuffer = new char[buffer.length];
 				input.skip(totalBytesRead);
 				int bytesRead = input.read(buffer, (int) 0, (int) lengthToRead);
@@ -141,7 +141,7 @@ public class ExploringFileHandling {
 	public static void main(String args[]) throws IOException {
 		char c;
 		// Create a BufferedReader using System.in
-		String test = "HelloThNexsanisIsBhaskarNexsanNexsan TechnologiesNexsan NexsanHelloThNexsanisIs";
+		String test = "HelloThNexsanisIsBhaskarNexsanNexsan TechnologiesNexsNexsansIsBhaskarNexsanNexsan TechnologiesNisIsBhaskarNexsanNexsan TechnolnNexsan TechnologiesNexsNexsanisIsBhaskarNexsanNexsan TechnologiesNexsNexsanisIsBhaskarNexsanNexsan TechnologiesNexsan NexsanHelloThNexsanisIs";
 		char[] testArr = test.toCharArray();
 
 		System.out.println("Enter characters, 'q' to quit.");
