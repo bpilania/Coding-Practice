@@ -118,7 +118,7 @@ class Node {
 
 }
 class a<T>{
-	static int aa;
+	int aa;
 	public a(){
 		System.out.println("In a");
 	}
@@ -138,7 +138,7 @@ class b extends a{
 		System.out.println("In b");
 	}
 	public void abc(){
-		System.out.println("In abc of b");
+		System.out.println(aa);
 	}
 }
 

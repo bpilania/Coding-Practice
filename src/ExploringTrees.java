@@ -198,21 +198,13 @@ class Result {
 
 	
 
-	boolean insertHelper(TreeNode root, TreeNode node) {
-		boolean result;
-		if (root == null)
-			return false;
-		if (node.value < root.value) {
-			result = insertHelper(root.left, node);
-			if (result == false)
-				root.left = node;
-			return true;
-		} else {
-			result = insertHelper(root.right, node);
-			if (result == false)
-				root.right = node;
-			return true;
-		}
+	TreeNode insertHelper(TreeNode root, TreeNode node) {
+		if(root == null) return node;
+		if(node.value < root.value)
+			root.left = insertHelper(root.left, node);
+		else
+			root.right = insertHelper(root.right, node);
+		return root;
 	}
 
 	void inOrderTraversalIteratively(TreeNode node) {
