@@ -30,7 +30,12 @@ public class RecursionAndDP {
 		ArrayList<StringBuffer> main2 = new ArrayList<StringBuffer>();
 		findAllPermutations(arr, main2, 1);
 		
-		
+		ArrayList<StringBuffer> setOfStrings = new ArrayList<StringBuffer>();
+		ArrayList<String> question = new ArrayList<String>();
+		question.add("ABC");
+		question.add("DE");
+		question.add("FGH");
+		findAllSetsOf2DStrings(setOfStrings, question);
 		
 		
 		ArrayList<ArrayList<String>> main = new ArrayList<ArrayList<String>>();
@@ -485,8 +490,36 @@ public class RecursionAndDP {
 			
 		
 	}
+	//ABC
+	//DE
 	
+	static void findAllSetsOf2DStrings(ArrayList<StringBuffer> result, ArrayList<String> question){
+		
+		result.add(new StringBuffer());
+		for(String str : question){
+			findAllSetsOf2DStringsHelper(result, str, 0);
+		}
+	}
 	
+
+	static void findAllSetsOf2DStringsHelper(ArrayList<StringBuffer> result, String toAdd, int index){
+		if(index == toAdd.length()){
+			result.clear();
+			return;
+		}
+		
+		ArrayList<StringBuffer> newResult = new ArrayList<StringBuffer>();
+		
+		for(StringBuffer str : result){
+			StringBuffer sb = new StringBuffer(str);
+			newResult.add(sb.append(toAdd.charAt(index)));
+		}
+		findAllSetsOf2DStringsHelper(result, toAdd, index+1);
+		
+		for(StringBuffer str : newResult){
+			result.add(str);
+		}
+	}
 		
 	
 }

@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -142,45 +143,28 @@ class b extends a{
 	}
 }
 
+
 public class test1 {
 
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static char numberToAlpha[][]={{'a','b','c'},{'d','e'},{'g','h','i'}};
+    static List <String> s123 = new ArrayList<String>();
 
+    static void stringToNumbers(String s,int index){
+    	if(index >= numberToAlpha.length)
+    		return;
+    	for(int j = 0;j < numberToAlpha[index].length;j++){
+    		String y = s + numberToAlpha[index][j]; 
+    		if(y.length() == 3){
+    			s123.add(y);
+    			y = y.substring(0,y.length()-1);
+    		}
+    		stringToNumbers(y,index+1);
+    	}	
+    }
     public static void main(String[] args) {
-    	a<String> aaa = new a<String>();
-		aaa.seta(5);
-		
-		a<Integer> bbb = new a<Integer>();
-		bbb.seta(15);
-		
-		
-		System.out.println(aaa.geta());
-		System.out.println(bbb.geta());
-    		b obj = new b();
-    		obj.abc();
-    	
-            String words[] = { "a", "apple", "argument", "aptitude", "ball", "bat" };
-            Trie trie = new Trie(Arrays.asList(words));
-            try {
-                    while (true) {
-                            System.out.print("Word to lookup: ");
-                            String word = br.readLine().trim();
-                            if (word.isEmpty())
-                                    break;
-                            if (trie.containsWord(word))
-                                    System.out.println(word + " found");
-                            else if (trie.containsPrefix(word)) {
-                                    if (confirm(word + " is a prefix.  Add it as a word?"))
-                                            trie.addWord(word);
-                            }
-                            else {
-                                    if (confirm("Add " + word + "?"))
-                                            trie.addWord(word);
-                            }
-                    }
-            } catch (IOException e) {
-                    e.printStackTrace();
-            }
+    	stringToNumbers(new String(), 0);
+    	System.out.println(s123);
     }
 
     public static boolean confirm( String question )
