@@ -12,12 +12,15 @@ public class ExploringTrees {
 		TreeNode root = tree.insert(10);
 		tree.insert(5);
 		tree.insert(20);
-		tree.insert(30);
-		tree.insert(15);
-		tree.insert(8);
-		tree.insert(2);
-		tree.insert(3);
-		tree.insert(4);
+		tree.insert(1);
+		tree.insert(7);
+		tree.insert(13);
+		tree.insert(21);
+
+		System.out.println("Duplicates are: "+tree.countDuplicates(root, null));
+		tree.inOrderMorris(root);
+		System.out.println("This was Morris in - retrival");
+
 		tree.inOrderTraversalIteratively(root);
 		System.out.println("This was iterative in - retrival");
 
@@ -196,7 +199,49 @@ class Result {
 			return left;
 		}
 
-	
+		public void inOrderMorris(TreeNode root) {
+			TreeNode current = root;
+			TreeNode pre = null;
+			
+		    while (current != null) {
+		        if (current.left == null) {
+		            System.out.println(current.value);
+		            current = current.right;
+		        } else {
+		            pre = current.left;
+
+		            while (pre.right != null && pre.right != current) {
+		                pre = pre.right;
+		            }
+
+		            if (pre.right == null) {
+		                pre.right = current;
+		                current = current.left;
+		            } else {
+		                pre.right = null;
+			            System.out.println(current.value);
+		                current = current.right;
+		            }
+		        }
+		    }
+		}
+		
+
+		int countDuplicates(TreeNode node, TreeNode lastSeen){
+			if(node == null){
+				return 0;
+			}
+			int count;
+			count = countDuplicates(node.left, lastSeen);
+			if(lastSeen != null && lastSeen.value == node.value){
+				count++;
+			}
+			lastSeen = node;
+			count = count + countDuplicates(node.right, lastSeen);
+			
+			return count;
+		}
+
 
 	TreeNode insertHelper(TreeNode root, TreeNode node) {
 		if(root == null) return node;
