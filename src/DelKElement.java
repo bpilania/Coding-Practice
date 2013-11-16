@@ -4,22 +4,38 @@ import java.util.Stack;
 public class DelKElement {
 	
 public static void main(String args[]){
-	LinkedList l1 = new LinkedList(5);
+	LinkedList l1 = new LinkedList(1);
+	l1.insert(2);
+	l1.insert(3);
+	l1.insert(4);
 	l1.insert(5);
-	l1.insert(5);
+
 	
 	
 	LinkedList l2 = new LinkedList(6);
 	l2.insert(6);
 	
+	
 
-	LinkedList l3 = l1.addNumbers(l1, l2);
+	LinkedList l3 = reverse(l1, l1);;
 	while(l3 != null)
 	{
 		System.out.println(l3.value);
 		l3 = l3.next;
 	}
 	
+}
+
+//3		2		1		4
+static LinkedList reverse(LinkedList start, LinkedList end){
+	if(end.next == null) return start;
+	
+	LinkedList next = end.next;
+	end.next = end.next.next;
+	next.next = start;
+	start = next;
+	
+	return reverse(start, end);
 }
 	
 	
