@@ -50,6 +50,8 @@ public class ExploringArrays {
 			System.out.println("Matrix cannopt be multiplied");
 		}
 		
+		int[] a1 = {1,2,2,2,2,4, 7,8,10};
+		System.out.println(findNumber(a1, 8,0,11));
 		
 		}
 	
@@ -79,6 +81,111 @@ public class ExploringArrays {
 		}
 		return result;
 	}
+	
+	static int findNumber(int[] x, int y, int low, int high){
+		if(low > high) return -1;
+		int mid = (low + high)/2;
+		
+		if(x[mid] >= y && x[mid-1] < y)
+			return x[mid-1];
+		
+		if(x[mid] >= y)
+			mid = findNumber(x, y, low, mid-1);
+		else
+			mid = findNumber(x, y, mid+1, high);
+		
+		return mid;
+	}
+	
+	static int findFirstMissing(int array[], int start, int end) {
+		 if(end < start)
+			 return end+1;
+	    
+		if(start > array.length) return start;
+		
+		int mid = (start + end)/2;
+		
+		if(mid == array[mid])
+			return findFirstMissing(array, mid+1, end);
+		else
+			return findFirstMissing(array, start, mid-1);
+	}
+	 
+	
+	/* For a given array arr[], returns the maximum j – i such that
+    arr[j] > arr[i] */
+	static int maxIndexDiff(int arr[], int n)
+	{
+	    int maxDiff;
+	    int i, j;
+	 
+	    int LMin[] = new int[n];
+	    int RMax[] = new int[n];
+	 
+	   /* Construct LMin[] such that LMin[i] stores the minimum value
+	       from (arr[0], arr[1], ... arr[i]) */
+	    LMin[0] = arr[0];
+	    for (i = 1; i < n; ++i)
+	        LMin[i] = Math.min(arr[i], LMin[i-1]);
+	 
+	    /* Construct RMax[] such that RMax[j] stores the maximum value
+	       from (arr[j], arr[j+1], ..arr[n-1]) */
+	    RMax[n-1] = arr[n-1];
+	    for (j = n-2; j >= 0; --j)
+	        RMax[j] = Math.max(arr[j], RMax[j+1]);
+	 
+	    /* Traverse both arrays from left to right to find optimum j - i
+	        This process is similar to merge() of MergeSort */
+	    i = 0;
+	    j = 0;
+	    maxDiff = -1;
+	    
+	    while (j < n && i < n)
+	    {
+	        if (LMin[i] < RMax[j])
+	        {
+	            maxDiff = Math.max(maxDiff, j-i);
+	            j = j + 1;
+	        }
+	        else
+	            i = i+1;
+	    }
+	 
+	    return maxDiff;
+	}
+	
+	static void printMatrixSpirally(int[][] arr){
+		int m = arr.length;
+		int n = arr[0].length;
+		
+		for(int i=0; i<m/2; i++){
+			int temp = i;
+			int j = i;
+			
+			while(j < n-1-temp){
+				System.out.print(arr[i][j]+" ");
+				j++;
+			}
+			
+			while(i < m-1-temp){
+				System.out.print(arr[i][j]+" ");
+				i++;
+			}
+			
+			while(j > temp){
+				System.out.print(arr[i][j]+" ");
+				j--;
+			}
+			
+			while(i > temp){
+				System.out.print(arr[i][j]+" ");
+				i--;
+			}
+						
+		}
+	}
+
+
 	
 	
 }

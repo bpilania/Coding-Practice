@@ -1,66 +1,56 @@
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class test1<T> {
-    LinkedList<T> queue;
-    final int limit;
+	Stack<TreeNode> stack = new Stack<TreeNode>();
+	TreeNode current = null;
+	
+	public test1(TreeNode root){
+		if(root == null)
+			return;
+		
+		while(root != null){
+			stack.push(root);
+			root = root.left;
+		}
+		current = root;
+	}
+	
+	
+	void next() {
+		if (!hasNext())
+			return;
 
-    public static void main(String args[]) {
-
-        final int numItems = 100;
-        test1<Integer> queue = new test1<Integer>(numItems);
-
-    }
-
-    public test1() {
-        // TODO Auto-generated constructor stub
-        queue = new LinkedList<T>();
-        limit = 10;
-    }
-
-    public T get() {
-        T t;
-        synchronized (queue) {
-            while (isEmpty()) {
-                try {
-                    queue.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            boolean empty = isFull();
-            t = queue.poll();
-            if (empty) {
-                queue.notifyAll();
-            }
-        }
-        return t;
-    }
-
-    public synchronized void put(T t) {
-    /*    
-         * while (isFull()) {
-         * 
-         * try { queue.wait(); } catch (InterruptedException e) { // TODO Auto-generated 
-         * catch block e.printStackTrace(); } }
-         */
-        boolean full = isEmpty();
-        queue.add(t);
-        /*
-         * if (full) { queue.notifyAll(); }
-         */
-    }
-
-    public BlockingQueue(int limit) {
-        this.limit = limit;
-    }
-
-    private boolean isFull() {
-        return queue.size() == limit;
-
-    }
-
-    private boolean isEmpty() {
-        return queue.isEmpty();
-    }
-
+		TreeNode next = null;
+		while(current != null){
+			stack.push(current);
+			current = current.left;
+		}
+		next = stack.pop();
+		current = next.right;
+		System.out.println("Next value is "+next.value);
+	}
+	
+	boolean hasNext()
+	{
+		return !stack.isEmpty() || current != null;
+	}
+	/* Driver program to check above functions */
+	public static void main(String args[])
+	{
+		Tree tree = new Tree();
+		TreeNode root = tree.insert(10);
+		tree.insert(5);
+		tree.insert(20);
+		tree.insert(1);
+		tree.insert(7);
+		tree.insert(13);
+		tree.insert(21);
+		
+		test1 iterator = new test1(root);
+		
+		while(iterator.hasNext())
+			iterator.next();
+		
+	}
 }

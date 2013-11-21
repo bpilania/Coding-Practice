@@ -16,6 +16,13 @@ public class ExploringTrees {
 		tree.insert(7);
 		tree.insert(13);
 		tree.insert(21);
+		
+		//Deactivated below method so that tree does not break up
+/*		TreeNode linkedList = Tree.flattenTree(root);
+		while(linkedList != null){
+			System.out.print(linkedList.value+"  ");
+			linkedList = linkedList.right;
+		}*/
 
 		System.out.println("Duplicates are: "+tree.countDuplicates(root, null));
 		tree.inOrderMorris(root);
@@ -576,6 +583,51 @@ class Result {
 
 		return temp;
 	}
+	
+	static TreeNode flattenTreeInOrder(TreeNode node){
+		if(node == null) return null;
+	
+		TreeNode root = flattenTreeHelperInOrder(node);
+		while(root.left != null)
+			root = root.left;
+		
+		return root;
+	}
+	
+	static TreeNode flattenTreeHelperInOrder(TreeNode node){
+		if(node == null) return null;
+		
+		TreeNode tempLeft = flattenTreeHelperInOrder(node.left);
+		while(tempLeft != null && tempLeft.right != null)
+			tempLeft = tempLeft.right;
+		
+		if(tempLeft != null){
+			node.left = tempLeft;
+			tempLeft.right = node;
+		}
+		
+		TreeNode tempRight = flattenTreeHelperInOrder(node.right);
+		while(tempRight != null && tempRight.left != null)
+			tempRight = tempRight.left;
+		
+		if(tempRight != null){
+			node.right = tempRight;
+			tempRight.left = node;
+		}
+		
+		return node;
+	}
+	
+	int findMaximumOfTree(TreeNode node, int lastLargest){ //initially lastLargest is Integer_Min
+		if(node == null) return lastLargest;
+
+
+		lastLargest = findMaximumOfTree(node.left, lastLargest);
+		if(node.value > lastLargest) lastLargest = node.value;
+		lastLargest = findMaximumOfTree(node.right, lastLargest);
+
+		return lastLargest;
+	}
 
 }
 
@@ -583,4 +635,41 @@ class PathFinder {
 	Stack<Integer> path = new Stack<Integer>();
 	ArrayList<Stack<Integer>> allPaths = new ArrayList<Stack<Integer>>();
 	boolean found = false;
+}
+
+class InOrderIterator {
+	Stack<TreeNode> stack = new Stack<TreeNode>();
+	TreeNode current = null;
+	
+	public InOrderIterator(TreeNode root){
+		if(root == null)
+			return;
+		
+		while(root != null){
+			stack.push(root);
+			root = root.left;
+		}
+		current = root;
+	}
+	
+	
+	void next() {
+		if (!hasNext())
+			return;
+
+		TreeNode next = null;
+		while(current != null){
+			stack.push(current);
+			current = current.left;
+		}
+		next = stack.pop();
+		current = next.right;
+		System.out.println("Next value is "+next.value);
+	}
+	
+	boolean hasNext()
+	{
+		return !stack.isEmpty() || current != null;
+	}
+	
 }

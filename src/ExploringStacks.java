@@ -19,6 +19,8 @@ public class ExploringStacks {
 		towerOfHanoi(s1, new Stack<Integer>(), s3, s1.size());
 		System.out.println(s3);
 
+		int[] arr = {1,2,15,16,8,12,13,4,3,2,5,6,20};
+		printNextGreatest(arr);
 	}
 
 	static void towerOfHanoi(Stack<Integer> source, Stack<Integer> intermediate, Stack<Integer> destination, int length){
@@ -29,6 +31,40 @@ public class ExploringStacks {
 		towerOfHanoi(source, destination, intermediate, length-1);
 		destination.push(source.pop());
 		towerOfHanoi(intermediate, source, destination, length-1);
+	}
+	
+	static void printNextGreatest(int[] arr){
+		if(arr.length < 0){ 
+			System.out.println("Array is empty"); 
+			return; 
+		}
+		
+		Stack<Integer> stack = new Stack<Integer>();
+		Stack<Integer> temp = new Stack<Integer>();
+		
+		for(Integer i : arr){
+			if(stack.isEmpty())
+				stack.add(i);
+			else{
+				temp.push(i);
+				
+				while(!stack.isEmpty()){
+					int value = stack.pop();
+					if(i > value)
+						System.out.println(i+" > "+value);
+					else
+						temp.push(value);
+				}
+				while(!temp.isEmpty()){
+					stack.push(temp.pop());
+				}
+			}
+			
+		}
+		
+		while(!stack.isEmpty())
+			System.out.println("Nothing > "+stack.pop());
+		
 	}
 }
 
