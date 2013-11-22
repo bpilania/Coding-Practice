@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class test1<T> {
+public class PaintNHouses {
 
 	class MinIndexes{
 		int min1;
@@ -27,7 +27,7 @@ public class test1<T> {
 		
 		for(int i=houses-2; i>=0;i--){										//O(M*N)
 			
-			MinIndexes minIndexes = findMinimumIndexes(solution, houses-1); //O(m)
+			MinIndexes minIndexes = findMinimumIndexes(solution, i+1); //O(m)
 			
 			int min1Index = minIndexes.min1;
 			int min2Index = minIndexes.min2;
@@ -43,23 +43,24 @@ public class test1<T> {
 			
 		}
 		
-		int min = findMinimumIndexes(solution, houses-1).min1; //O(m)
+		int min = findMinimumIndexes(solution, 0).min1; //O(m)
 		System.out.println("Minimum is: "+ solution[0][min]);
 	}
 	
-	MinIndexes findMinimumIndexes(int[][] arr, int n){
-		int min1 = 0, min2 = 0;
+	MinIndexes findMinimumIndexes(int[][] arr, int n){ //Need Better Algo for getting 2 minimum indexes
+				int min1 = 0;
 		
-		for(int i=1; i < arr[0].length - 1; i++ ){
+		
+		for(int i=1; i < arr[0].length ; i++ ){
 			if(arr[n][min1] > arr[n][i])
 				min1 = i;
 		}
-		
-		for(int i=1; i < arr[0].length - 1; i++ ){
-			if(arr[n][min2] > arr[n][i] && arr[n][i] != arr[n][min1])
+		int min2 = (min1 + 1)  == arr[0].length ? min1-1 : min1 + 1;
+		for(int i=1; i < arr[0].length; i++ ){
+			if(arr[n][min2] > arr[n][i] && i != min1)
 				min2 = i;
 		}
-		
+		System.out.println(arr[n][min1]+" "+arr[n][min2]);
 		return new MinIndexes(min1, min2);
 		
 	}
@@ -75,7 +76,7 @@ public class test1<T> {
 				{1,2,5,1,3}
 		};
 		
-		test1 t = new test1();
+		PaintNHouses t = new PaintNHouses();
 		
 		t.findOptimalCost(cost);
 		
