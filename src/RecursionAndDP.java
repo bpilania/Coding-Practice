@@ -132,6 +132,9 @@ public class RecursionAndDP {
 		findNumberofWays(50, set1,current);
 		System.out.println(set1.size());
 		
+		
+		System.out.println("Longest Subseq. is: "+findLongestSubSequence("BBABCBCAB", 0, 8, new Hashtable<String, Integer>()));
+		
 	}
 	
 	public static void findNumberofWays(int cash, HashSet<ArrayList<Integer>> set, ArrayList<Integer> current){
@@ -477,7 +480,7 @@ public class RecursionAndDP {
 		for(StringBuffer buffer : main){
 			for(int i=0;i<buffer.length()+1; i++){
 				StringBuffer copyBuffer = new StringBuffer(buffer);
-				copyBuffer.insert(i, String.valueOf(temp));
+				copyBuffer.insert(i, temp);
 				tempBuffer.add(copyBuffer);
 			}
 		}
@@ -519,6 +522,33 @@ public class RecursionAndDP {
 		for(StringBuffer str : newResult){
 			result.add(str);
 		}
+	}
+	
+	static int findLongestSubSequence(String str, int i, int j, Hashtable<String, Integer> hash){
+		if(i == j) return 1;
+		
+		if(i+1 == j && str.charAt(i) == str.charAt(j))
+			return 2;
+		
+		if(hash.contains(i+"-"+j)){
+			System.out.println("Contains");
+			return hash.get(i+"-"+j);
+		}
+		if(str.charAt(i) == str.charAt(j)){
+			int temp = findLongestSubSequence(str, i+1, j-1, hash);
+			hash.put((i+1)+"-"+(j-1), temp);
+			return  temp + 2;
+		}
+		
+		int max1 = findLongestSubSequence(str, i+1, j, hash);
+		hash.put((i+1)+"-"+(j), max1);
+		int max2 = findLongestSubSequence(str, i, j-1, hash);
+		hash.put((i)+"-"+(j-1), max2);
+
+		return Math.max(max1,max2);
+		
+		
+		
 	}
 		
 	

@@ -9,6 +9,10 @@ public static void main(String args[]){
 	l1.insert(3);
 	l1.insert(4);
 	l1.insert(5);
+	l1.insert(5);
+	l1.insert(5);
+	l1.insert(3);
+	l1.insert(5);
 
 	
 	
@@ -17,7 +21,7 @@ public static void main(String args[]){
 	
 	
 
-	LinkedList l3 = reverse(l1, l1);;
+	LinkedList l3 = l1.delIfGreaterOnRightSide(l1);
 	while(l3 != null)
 	{
 		System.out.println(l3.value);
@@ -49,6 +53,27 @@ class LinkedList{
 		this.value = i;
 		this.next = null;
 	}
+	
+	LinkedList mergeSort(LinkedList list){
+		if(list == null || list.next == null)
+			return list;
+		
+		mergeSortHelper(list1, list2);
+		
+		
+		return null;
+	}
+	
+	LinkedList mergeSortHelper(LinkedList list1, LinkedList list2){
+		
+		
+		
+		
+		
+		return null;
+	}
+	
+	
 	
 	void insert(int a){
 		
@@ -191,6 +216,47 @@ class LinkedList{
 			b.carry = val/10;
 		
 			return b;
+	}
+	
+	LinkedList delIfGreaterOnRightSide(LinkedList node){
+			
+		LinkedList head = reverseLinkedList(node);
+		LinkedList previous = head;
+		
+		
+		int greatest = head.value;
+		
+		while(previous.next != null){
+			if(previous.next.value < greatest){
+				previous.next = previous.next.next;
+			}
+			else{
+				previous = previous.next;
+			}
+		}
+		
+		head = reverseLinkedList(head);
+
+		
+		return head;
+	}
+	
+	LinkedList reverseLinkedList(LinkedList node){
+		if(node == null || node.next == null) return node;
+		
+		LinkedList head = node;
+		LinkedList tail = node;
+		
+
+		
+		while(tail.next != null){
+			LinkedList temp = tail.next;	
+			tail.next = temp.next;
+			temp.next = head;
+			head = temp;
+		}
+		
+		return head;
 	}
 }
 
